@@ -48,4 +48,29 @@ router.delete('/:id', (req, res) => {
     })
 })
 
+router.get('/:id/actions', (req, res) => {
+    Projects.getProjectActions(req.params.id)
+    .then(project => {
+        res.status(200).json(project);
+    })
+    .catch(err => {
+        res.status(500).json({ error: "Could not get actions for that project" });
+    })
+})
+
 module.exports = router;
+
+function verifyProjectId( req, res, next) {
+    Projects.get(req.params.id)
+        .then(project => {
+            if(!project){
+                res.status(404).json({ message: "Invalid Project ID" })
+            } else {
+                console.log('valid project id');
+                next();
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ error: "Could not get project of that id" })
+        })
+    }
