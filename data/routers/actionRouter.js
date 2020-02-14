@@ -5,8 +5,13 @@ const router = express.Router();
 const Actions = require('../helpers/actionModel');
 
 router.get('/', (req, res) => {
-    
-    res.status(200).json({ message: "You made it to action router!" });
+    Actions.get()
+    .then(action => {
+        res.status(200).json(action)
+    })
+    .catch(err => {
+        res.status(500).json({ error: "Could not get all actions" })
+    })
 }) 
 
 router.get('/:id', (req, res) => {

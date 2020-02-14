@@ -4,9 +4,19 @@ const Projects = require('../helpers/projectModel');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    res.status(200).json({ message: "You made it to project router!" });
-}) 
+// router.get('/', (req, res) => {
+//     res.status(200).json({ message: "You made it to project router!" });
+// }) 
+
+router.get('/',  (req, res) => {
+    Projects.get()
+    .then(project => {
+        res.status(200).json(project)
+    })
+    .catch(err => {
+        res.status(500).json({ error: 'Could not retrieve all projects'})
+    })
+})
 
 router.get('/:id', verifyProjectId, (req, res) => {
     Projects.get(req.params.id)
