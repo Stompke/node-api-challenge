@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
     res.status(200).json({ message: "You made it to project router!" });
 }) 
 
-router.get('/:id', (req, res) => {
+router.get('/:id', verifyProjectId, (req, res) => {
     Projects.get(req.params.id)
     .then(project => {
         res.status(200).json(project)
@@ -28,7 +28,7 @@ router.post('/', (req, res) => {
     })
 })
 
-router.put('/:id', (req, res) => {
+router.put('/:id', verifyProjectId,  (req, res) => {
     Projects.update(req.params.id, req.body)
     .then(project => {
         res.status(200).json(project);
@@ -38,7 +38,7 @@ router.put('/:id', (req, res) => {
     })
 })
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', verifyProjectId, (req, res) => {
     Projects.remove(req.params.id)
     .then(project => {
         res.status(200).json(project);
@@ -48,7 +48,7 @@ router.delete('/:id', (req, res) => {
     })
 })
 
-router.get('/:id/actions', (req, res) => {
+router.get('/:id/actions', verifyProjectId, (req, res) => {
     Projects.getProjectActions(req.params.id)
     .then(project => {
         res.status(200).json(project);
